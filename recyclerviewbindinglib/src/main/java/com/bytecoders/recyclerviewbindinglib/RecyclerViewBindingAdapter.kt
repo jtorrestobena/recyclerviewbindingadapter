@@ -8,6 +8,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bytecoders.recyclerviewbindinglib.layoutmanager.ArcLayoutManager
 import com.bytecoders.recyclerviewbindinglib.viewholder.*
 import kotlin.reflect.KClass
 
@@ -18,8 +19,14 @@ sealed class RecyclerViewType
 object RecyclerViewVertical : RecyclerViewType()
 object RecyclerViewHorizontal : RecyclerViewType()
 data class RecyclerViewGrid(val spanCount: Int) : RecyclerViewType()
+data class RecyclerViewCurved(val horizontalOffset: Int = 0) : RecyclerViewType()
 
-class RecyclerViewConfiguration(val layoutIds: ClassLayoutMapping, private val recyclerViewType: RecyclerViewType, val viewHolderConfiguration: ViewHolderConfiguration) {
+enum class Snap {
+    LINEAR,
+    PAGER
+}
+
+class RecyclerViewConfiguration(val layoutIds: ClassLayoutMapping, private val recyclerViewType: RecyclerViewType, val viewHolderConfiguration: ViewHolderConfiguration, val snap: Snap? = null) {
     fun getLayoutManager(context: Context) = when(recyclerViewType){
         is RecyclerViewVertical -> LinearLayoutManager(context)
         is RecyclerViewHorizontal -> {
@@ -31,6 +38,7 @@ class RecyclerViewConfiguration(val layoutIds: ClassLayoutMapping, private val r
             val layout = GridLayoutManager(context, recyclerViewType.spanCount)
             layout
         }
+        is RecyclerViewCurved -> ArcLayoutManager(context, recyclerViewType.horizontalOffset)
     }
 }
 

@@ -1,5 +1,7 @@
 package com.bytecoders.recyclerviewbindinglib
 
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 
 fun RecyclerView.bindModel(model: List<Any>?, recyclerViewConfiguration: RecyclerViewConfiguration) {
@@ -7,4 +9,9 @@ fun RecyclerView.bindModel(model: List<Any>?, recyclerViewConfiguration: Recycle
 
     adapter = RecyclerViewBindingAdapter(model, recyclerViewConfiguration)
     layoutManager = recyclerViewConfiguration.getLayoutManager(context)
+
+    when(recyclerViewConfiguration.snap) {
+        Snap.LINEAR -> LinearSnapHelper().attachToRecyclerView(this)
+        Snap.PAGER -> PagerSnapHelper().attachToRecyclerView(this)
+    }
 }

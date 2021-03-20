@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.bytecoders.recyclerviewbindings.model.SampleModel" />
+    </data>
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/purple_circle"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:text="@{model.numberString}"
+        android:textSize="20sp"
+        tools:text="100" />
+
+
+</layout>

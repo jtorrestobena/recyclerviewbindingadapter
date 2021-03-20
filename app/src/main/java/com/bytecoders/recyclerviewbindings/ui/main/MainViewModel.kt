@@ -12,17 +12,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val NUM_ITEMS = 2000
+private const val NUM_ITEMS = 200
 class MainViewModel : ViewModel() {
     /**
      * If you forget to add mappings between model classes and layouts you will get
      *
      * java.lang.IllegalStateException: No layout id defined for class ...
      **/
-    private val layoutMapping: ClassLayoutMapping = mapOf(SampleModel::class to R.layout.item_recyclerview_sample_model_text)
+    private val layoutMapping: ClassLayoutMapping = mapOf(SampleModel::class to R.layout.item_recyclerview_sample_model_text_circle)
     val recyclerViewModel = MutableLiveData<List<SampleModel>>()
     val recyclerViewConfiguration = MutableLiveData(
-        RecyclerViewConfiguration(layoutMapping, RecyclerViewVertical, StandardViewHolderConfiguration(BR.model, itemAnimation = R.anim.expand_center)))
+        RecyclerViewConfiguration(layoutMapping, RecyclerViewCurved(), StandardViewHolderConfiguration(BR.model, itemAnimation = R.anim.expand_center), Snap.LINEAR))
 
     fun load() {
         viewModelScope.launch(Dispatchers.IO) {
