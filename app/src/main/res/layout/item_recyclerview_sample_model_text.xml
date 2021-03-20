@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="model"
             type="com.bytecoders.recyclerviewbindings.model.SampleModel" />
     </data>
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/purple_200"
-    android:elevation="8dp"
-    android:padding="10dp"
-    android:layout_margin="10dp"
-    android:textSize="20sp"
-    android:gravity="center"
-    android:text="@{model.text}"
-    tools:text="ReyclerViewItem"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/purple_200"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@{model.text}"
+        android:textSize="20sp"
+        tools:text="ReyclerViewItem" />
 
 </layout>

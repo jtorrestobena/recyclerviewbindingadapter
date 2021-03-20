@@ -3,9 +3,7 @@ package com.bytecoders.recyclerviewbindings.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bytecoders.recyclerviewbindinglib.ClassLayoutMapping
-import com.bytecoders.recyclerviewbindinglib.RecyclerViewConfiguration
-import com.bytecoders.recyclerviewbindinglib.RecyclerViewVertical
+import com.bytecoders.recyclerviewbindinglib.*
 import com.bytecoders.recyclerviewbindinglib.viewholder.StandardViewHolderConfiguration
 import com.bytecoders.recyclerviewbindings.BR
 import com.bytecoders.recyclerviewbindings.R
@@ -24,7 +22,7 @@ class MainViewModel : ViewModel() {
     private val layoutMapping: ClassLayoutMapping = mapOf(SampleModel::class to R.layout.item_recyclerview_sample_model_text)
     val recyclerViewModel = MutableLiveData<List<SampleModel>>()
     val recyclerViewConfiguration = MutableLiveData(
-        RecyclerViewConfiguration(layoutMapping, RecyclerViewVertical, StandardViewHolderConfiguration(BR.model, itemAnimation = R.anim.right_to_left_fade)))
+        RecyclerViewConfiguration(layoutMapping, RecyclerViewVertical, StandardViewHolderConfiguration(BR.model, itemAnimation = R.anim.expand_center)))
 
     fun load() {
         viewModelScope.launch(Dispatchers.IO) {

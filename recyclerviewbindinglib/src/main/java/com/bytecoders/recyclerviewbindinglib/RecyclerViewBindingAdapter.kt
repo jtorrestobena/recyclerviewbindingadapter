@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bytecoders.recyclerviewbindinglib.viewholder.*
@@ -15,10 +16,21 @@ typealias ClassLayoutMapping = Map<KClass<*>, Int>
 
 sealed class RecyclerViewType
 object RecyclerViewVertical : RecyclerViewType()
+object RecyclerViewHorizontal : RecyclerViewType()
+data class RecyclerViewGrid(val spanCount: Int) : RecyclerViewType()
 
 class RecyclerViewConfiguration(val layoutIds: ClassLayoutMapping, private val recyclerViewType: RecyclerViewType, val viewHolderConfiguration: ViewHolderConfiguration) {
     fun getLayoutManager(context: Context) = when(recyclerViewType){
-        RecyclerViewVertical -> LinearLayoutManager(context)
+        is RecyclerViewVertical -> LinearLayoutManager(context)
+        is RecyclerViewHorizontal -> {
+            val layout = LinearLayoutManager(context)
+            layout.orientation = RecyclerView.HORIZONTAL
+            layout
+        }
+        is RecyclerViewGrid -> {
+            val layout = GridLayoutManager(context, recyclerViewType.spanCount)
+            layout
+        }
     }
 }
 
