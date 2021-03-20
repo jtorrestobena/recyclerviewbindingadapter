@@ -1,0 +1,3 @@
+include ':recyclerviewbindinglib'
+include ':app'
+rootProject.name = "RecyclerViewBindings"
