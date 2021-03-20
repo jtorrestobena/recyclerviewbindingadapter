@@ -1,11 +1,12 @@
 package com.bytecoders.recyclerviewbindinglib.layoutmanager
 
 import android.content.Context
-import android.util.Log
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.acos
+import kotlin.math.sin
 
 class ArcLayoutManager(
     private val context: Context,
@@ -34,8 +35,6 @@ class ArcLayoutManager(
 
     private fun fill(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
         detachAndScrapAttachedViews(recycler ?: return)
-
-        Log.d("FML", "state $state")
 
         for (itemIndex in 0 until itemCount) {
             val view = recycler.getViewForPosition(itemIndex)

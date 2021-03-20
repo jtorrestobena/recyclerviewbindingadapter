@@ -3,7 +3,6 @@ package com.bytecoders.recyclerviewbindinglib
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
@@ -31,7 +30,7 @@ enum class Snap {
 }
 
 class RecyclerViewConfiguration(val layoutIds: ClassLayoutMapping, private val recyclerViewType: RecyclerViewType, val viewHolderConfiguration: ViewHolderConfiguration, val snap: Snap? = null) {
-    fun getLayoutManager(context: Context) = when(recyclerViewType){
+    fun getLayoutManager(context: Context): RecyclerView.LayoutManager = when(recyclerViewType){
         is RecyclerViewVertical -> LinearLayoutManager(context)
         is RecyclerViewHorizontal -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         is RecyclerViewGrid -> GridLayoutManager(context, recyclerViewType.spanCount)
