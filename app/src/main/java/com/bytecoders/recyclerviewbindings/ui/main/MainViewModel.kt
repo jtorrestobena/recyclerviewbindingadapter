@@ -3,10 +3,7 @@ package com.bytecoders.recyclerviewbindings.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bytecoders.recyclerviewbindinglib.ClassLayoutMapping
-import com.bytecoders.recyclerviewbindinglib.RecyclerViewConfiguration
-import com.bytecoders.recyclerviewbindinglib.RecyclerViewCurved
-import com.bytecoders.recyclerviewbindinglib.Snap
+import com.bytecoders.recyclerviewbindinglib.*
 import com.bytecoders.recyclerviewbindinglib.viewholder.StandardViewHolderConfiguration
 import com.bytecoders.recyclerviewbindings.BR
 import com.bytecoders.recyclerviewbindings.R
@@ -22,10 +19,10 @@ class MainViewModel : ViewModel() {
      *
      * java.lang.IllegalStateException: No layout id defined for class ...
      **/
-    private val layoutMapping: ClassLayoutMapping = mapOf(SampleModel::class to R.layout.item_recyclerview_sample_model_text_circle)
+    private val layoutMapping: ClassLayoutMapping = mapOf(SampleModel::class to R.layout.item_recyclerview_sample_model_text)
     val recyclerViewModel = MutableLiveData<List<SampleModel>>()
     val recyclerViewConfiguration = MutableLiveData(
-        RecyclerViewConfiguration(layoutMapping, RecyclerViewCurved(), StandardViewHolderConfiguration(BR.model, itemAnimation = R.anim.expand_center), Snap.LINEAR))
+        RecyclerViewConfiguration(layoutMapping, RecyclerViewVertical, StandardViewHolderConfiguration(BR.model, itemAnimation = R.anim.expand_center)))
 
     fun load() {
         viewModelScope.launch(Dispatchers.IO) {
