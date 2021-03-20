@@ -1,6 +1,7 @@
 package com.bytecoders.recyclerviewbindinglib.layoutmanager
 
 import android.content.Context
+import android.util.Log
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,8 @@ class ArcLayoutManager(
     private fun fill(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
         detachAndScrapAttachedViews(recycler ?: return)
 
+        Log.d("FML", "state $state")
+
         for (itemIndex in 0 until itemCount) {
             val view = recycler.getViewForPosition(itemIndex)
             addView(view)
@@ -49,11 +52,11 @@ class ArcLayoutManager(
             val alpha = top.second
             view.rotation = (alpha * (180 / PI)).toFloat() - 90f
 
-            measureChildWithMargins(view ?: return, viewWidth.toInt(), viewHeight.toInt())
+            measureChildWithMargins(view, viewWidth.toInt(), viewHeight.toInt())
             layoutDecoratedWithMargins(
                 view,
                 left.toInt(),
-                top.first.toInt(),
+                top.first,
                 right.toInt(),
                 bottom.toInt()
             )

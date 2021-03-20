@@ -3,11 +3,13 @@ package com.bytecoders.recyclerviewbindinglib
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bytecoders.recyclerviewbindinglib.layoutmanager.ArcLayoutManager
 import com.bytecoders.recyclerviewbindinglib.viewholder.*
 import kotlin.reflect.KClass
@@ -18,7 +20,9 @@ typealias ClassLayoutMapping = Map<KClass<*>, Int>
 sealed class RecyclerViewType
 object RecyclerViewVertical : RecyclerViewType()
 object RecyclerViewHorizontal : RecyclerViewType()
-data class RecyclerViewGrid(val spanCount: Int) : RecyclerViewType()
+open class RecyclerViewGrid(val spanCount: Int) : RecyclerViewType()
+class RecyclerViewGridStaggeredVertical(spanCount: Int) : RecyclerViewGrid(spanCount)
+class RecyclerViewGridStaggeredHorizontal(spanCount: Int) : RecyclerViewGrid(spanCount)
 data class RecyclerViewCurved(val horizontalOffset: Int = 0) : RecyclerViewType()
 
 enum class Snap {
@@ -29,15 +33,10 @@ enum class Snap {
 class RecyclerViewConfiguration(val layoutIds: ClassLayoutMapping, private val recyclerViewType: RecyclerViewType, val viewHolderConfiguration: ViewHolderConfiguration, val snap: Snap? = null) {
     fun getLayoutManager(context: Context) = when(recyclerViewType){
         is RecyclerViewVertical -> LinearLayoutManager(context)
-        is RecyclerViewHorizontal -> {
-            val layout = LinearLayoutManager(context)
-            layout.orientation = RecyclerView.HORIZONTAL
-            layout
-        }
-        is RecyclerViewGrid -> {
-            val layout = GridLayoutManager(context, recyclerViewType.spanCount)
-            layout
-        }
+        is RecyclerViewHorizontal -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        is RecyclerViewGrid -> GridLayoutManager(context, recyclerViewType.spanCount)
+        is RecyclerViewGridStaggeredVertical -> StaggeredGridLayoutManager(recyclerViewType.spanCount, StaggeredGridLayoutManager.VERTICAL)
+        is RecyclerViewGridStaggeredHorizontal -> StaggeredGridLayoutManager(recyclerViewType.spanCount, StaggeredGridLayoutManager.HORIZONTAL)
         is RecyclerViewCurved -> ArcLayoutManager(context, recyclerViewType.horizontalOffset)
     }
 }
