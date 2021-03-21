@@ -2,8 +2,7 @@ apply plugin: 'java-gradle-plugin'
 apply plugin: 'kotlin'
 
 buildscript {
-    ext.kotlin_version = '1.4.10'
-    ext.gradle_version = '4.1.3'
+    apply from: '../sharedproperties.gradle'
     repositories {
         google()
         jcenter()
@@ -19,10 +18,13 @@ repositories {
     jcenter()
 }
 
+group 'com.bytecoders'
+version recyclerview_library_version
+
 gradlePlugin {
     plugins {
         create("RecyclerviewBindingGenerator") {
-            id = 'recyclerview-binding-generator'
+            id = 'com.bytecoders.librecyclerviewbindinggenerator'
             implementationClass = 'com.bytecoders.librecyclerviewbindinggenerator.RecyclerviewBindingGenerator'
         }
     }

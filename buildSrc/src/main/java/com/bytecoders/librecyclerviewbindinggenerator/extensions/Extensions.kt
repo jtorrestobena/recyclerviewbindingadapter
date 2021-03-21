@@ -32,3 +32,5 @@ fun BaseExtension.variants(): DomainObjectSet<out BaseVariant> {
         else -> throw GradleException("Unsupported BaseExtension type!")
     }
 }
+
+fun String.packageToPath() = split(".").joinToString("/")

@@ -1,6 +1,9 @@
 package com.bytecoders.librecyclerviewbindinggenerator
 
+import com.android.build.api.dsl.AndroidSourceSet
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import com.bytecoders.librecyclerviewbindinggenerator.extensions.android
+import com.bytecoders.librecyclerviewbindinggenerator.extensions.packageToPath
 import com.bytecoders.librecyclerviewbindinggenerator.extensions.variants
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -14,8 +17,8 @@ internal class RecyclerviewBindingGenerator : Plugin<Project> {
             // Make a task for each combination of build type and product flavor
             val bindingTaskName = "generateRecyclerviewBinding${variant.name.capitalize()}"
 
-            val packageFolder = BINDING_PACKAGE.split(".").joinToString("/")
-            val outputPath = "${project.rootDir}/${project.name}/src/main/java/$packageFolder"
+            val packageFolder = BINDING_PACKAGE.packageToPath()
+            val outputPath = "${project.buildDir}/generated/source/recyclerview/$packageFolder"
 
             project.tasks.register(bindingTaskName, BindingTask::class.java) { bindingTask ->
                 bindingTask.group = "recyclerview"
@@ -24,7 +27,7 @@ internal class RecyclerviewBindingGenerator : Plugin<Project> {
                 // reference to this so we can later mark it as a generated resource folder
                 val outputDirectory =
                     File(outputPath).apply { mkdir() }
-                bindingTask.outputFile = File(outputDirectory, "RecyclerViewBinding.kt")
+                bindingTask.outputFile = File(outputDirectory, "RecyclerViewGeneratedBinding.kt")
 
                 // Marks the output directory as an app resource folder
                 variant.registerGeneratedResFolders(
