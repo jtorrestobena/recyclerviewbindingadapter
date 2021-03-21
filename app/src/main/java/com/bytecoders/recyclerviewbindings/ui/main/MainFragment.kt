@@ -5,15 +5,13 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.bytecoders.recyclerviewbindings.R
 import com.bytecoders.recyclerviewbindings.databinding.MainFragmentBinding
 import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = MainFragment()
-    }
 
     private val viewModel: MainViewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
 
@@ -30,6 +28,7 @@ class MainFragment : Fragment() {
         // Handle item selection
         return when (item.itemId) {
             R.id.settings_open -> {
+                findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -46,7 +45,8 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.load()
+
+        viewModel.load(PreferenceManager.getDefaultSharedPreferences(activity))
 
         viewModel.itemClicked.observe(viewLifecycleOwner, {
             Snackbar.make(view, "You clicked on item ${it.text}", Snackbar.LENGTH_LONG).show()

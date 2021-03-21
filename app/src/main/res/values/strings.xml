@@ -1,4 +1,32 @@
 <resources>
     <string name="app_name">RecyclerViewBindings</string>
     <string name="settings">Settings</string>
+
+    <string-array name="recyclerview_type_values">
+        <item>Vertical</item>
+        <item>Horizontal</item>
+        <item>Grid</item>
+        <item>GridStaggeredVertical</item>
+        <item>GridStaggeredHorizontal</item>
+        <item>Curved</item>
+    </string-array>
+
+    <string-array name="recyclerview_layout">
+        <item>@layout/item_recyclerview_sample_model_text</item>
+        <item>@layout/item_recyclerview_sample_model_text_wrap_width</item>
+        <item>@layout/item_recyclerview_sample_model_text_circle</item>
+    </string-array>
+
+    <integer-array name="recyclerview_layout_values">
+        <item>@layout/item_recyclerview_sample_model_text</item>
+        <item>@layout/item_recyclerview_sample_model_text_wrap_width</item>
+        <item>@layout/item_recyclerview_sample_model_text_circle</item>
+    </integer-array>
+
+    <string-array name="recyclerview_animation">
+        <item>None</item>
+        <item>expand_center</item>
+        <item>right_to_left</item>
+        <item>right_to_left_fade</item>
+    </string-array>
 </resources>

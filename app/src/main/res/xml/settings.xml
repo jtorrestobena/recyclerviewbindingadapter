@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ListPreference
+        app:key="recyclerview_type"
+        app:title="RecyclerView Type"
+        app:entries="@array/recyclerview_type_values"
+        app:entryValues="@array/recyclerview_type_values"
+        app:summary="Select Recyclerview type"/>
+
+    <SwitchPreferenceCompat
+        app:key="snap"
+        app:title="Snap views"/>
+
+    <ListPreference
+        app:key="layout_type"
+        app:title="Layout Type"
+        app:entries="@array/recyclerview_layout"
+        app:entryValues="@array/recyclerview_layout_values"
+        app:summary="Select Recyclerview type"/>
+
+    <ListPreference
+        app:key="animation_type"
+        app:title="Animation Type"
+        app:entries="@array/recyclerview_animation"
+        app:entryValues="@array/recyclerview_animation"
+        app:summary="Select Animation type"/>
+</PreferenceScreen>
