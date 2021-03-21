@@ -37,20 +37,6 @@ android {
     buildFeatures {
         dataBinding true
     }
-
-    sourceSets {
-        main {
-            java {
-                srcDir "${buildDir.absolutePath}/generated/source/recyclerview/"
-            }
-        }
-    }
-}
-
-afterEvaluate {
-    android.applicationVariants.all { variant ->
-        variant.javaCompiler.dependsOn(generateRecyclerviewBindingRelease)
-    }
 }
 
 dependencies {
@@ -62,7 +48,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
