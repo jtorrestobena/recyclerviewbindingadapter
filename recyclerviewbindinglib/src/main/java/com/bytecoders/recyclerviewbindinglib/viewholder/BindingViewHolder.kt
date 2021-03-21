@@ -6,18 +6,13 @@ import androidx.annotation.IdRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-interface ItemClickListener {
-    fun itemClicked(position: Int, item: Any)
-}
-
 sealed class ViewHolderConfiguration
 open class StandardViewHolderConfiguration(val variableId: Int,
-                                           val itemClick: ItemClickListener? = null,
                                            @AnimRes val itemAnimation: Int? = null): ViewHolderConfiguration()
 
-class ExpandableViewHolderConfiguration(variableId: Int, itemClick: ItemClickListener? = null,
+class ExpandableViewHolderConfiguration(variableId: Int,
                                         @IdRes val expandableTextResource: Int,
-                                        val collapsedLines: Int = 10) : StandardViewHolderConfiguration(variableId, itemClick)
+                                        val collapsedLines: Int = 10) : StandardViewHolderConfiguration(variableId)
 
 open class BindingViewHolder(private val binding: ViewDataBinding, private val viewHolderConfiguration: StandardViewHolderConfiguration)
     : RecyclerView.ViewHolder(binding.root) {
@@ -31,9 +26,6 @@ open class BindingViewHolder(private val binding: ViewDataBinding, private val v
         with(viewHolderConfiguration) {
             itemAnimation?.let {
                 itemView.animation = AnimationUtils.loadAnimation(itemView.context, it)
-            }
-            itemClick?.apply {
-                itemView.setOnClickListener { itemClicked(adapterPosition, item) }
             }
         }
         if (binding.setVariable(viewHolderConfiguration.variableId, item)) {

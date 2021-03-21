@@ -1,12 +1,13 @@
 package com.bytecoders.recyclerviewbindings.ui.main
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bytecoders.recyclerviewbindings.R
 import com.bytecoders.recyclerviewbindings.databinding.MainFragmentBinding
+import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
 
@@ -46,6 +47,10 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.load()
+
+        viewModel.itemClicked.observe(viewLifecycleOwner, {
+            Snackbar.make(view, "You clicked on item ${it.text}", Snackbar.LENGTH_LONG).show()
+        })
     }
 
 }

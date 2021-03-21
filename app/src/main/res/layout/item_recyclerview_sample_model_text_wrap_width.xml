@@ -17,7 +17,8 @@
         android:elevation="8dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:onClick="@{() -> model.onClick()}">
 
         <TextView
             android:layout_width="wrap_content"

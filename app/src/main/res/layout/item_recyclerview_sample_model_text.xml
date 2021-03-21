@@ -19,6 +19,7 @@
         android:padding="10dp"
         android:text="@{model.text}"
         android:textSize="20sp"
+        android:onClick="@{() -> model.onClick()}"
         tools:text="ReyclerViewItem" />
 
 </layout>
