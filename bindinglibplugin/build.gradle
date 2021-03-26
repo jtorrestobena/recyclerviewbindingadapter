@@ -1,0 +1,71 @@
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'kotlin'
+
+buildscript {
+    apply from: '../sharedproperties.gradle'
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.android.tools.build:gradle:$gradle_version"
+    }
+}
+
+repositories {
+    google()
+    jcenter()
+}
+
+group 'com.bytecoders'
+version recyclerview_library_version
+
+gradlePlugin {
+    plugins {
+        create("RecyclerviewBindingGenerator") {
+            id = 'com.bytecoders.librecyclerviewbindinggenerator'
+            implementationClass = 'com.bytecoders.librecyclerviewbindinggenerator.RecyclerviewBindingGenerator'
+            displayName = 'Generates binding adapters for recyclerview lib'
+            description = 'A plugin that generates binding adapters for recyclerviewbindinglib'
+        }
+    }
+
+}
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name = "GithubPackages"
+                url = uri("https://maven.pkg.github.com/jtorrestobena/recyclerviewbindingadapter")
+                credentials {
+                    username = System.getenv('GITHUB_USER') ?: project.properties['GITHUB_USER']
+                    password = System.getenv('GITHUB_PERSONAL_ACCESS_TOKEN') ?: project.properties['GITHUB_PERSONAL_ACCESS_TOKEN']
+                }
+            }
+            maven {
+                name = 'CustomMavenRepo'
+                url = "file://${buildDir}/repo"
+            }
+        }
+
+        publications {
+            generator(MavenPublication) {
+                groupId = 'com.bytecoders.recyclerviewbindinglib'
+                artifactId = 'recyclerviewbindinglib-generator'
+                version = recyclerview_library_version
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "com.google.code.gson:gson:2.8.6"
+
+    // Android gradle plugin will allow us to access Android specific features
+    implementation "com.android.tools.build:gradle:$gradle_version"
+}
+
+apply plugin: 'maven-publish'

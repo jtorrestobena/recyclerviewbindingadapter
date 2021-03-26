@@ -1,11 +1,9 @@
 package com.bytecoders.librecyclerviewbindinggenerator
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import java.io.File
-import java.io.Serializable
 import java.time.LocalDateTime
 
 const val BINDING_PACKAGE = "binding.recyclerview"
