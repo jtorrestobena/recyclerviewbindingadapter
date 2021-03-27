@@ -1,1 +1,2 @@
+include ':bindinglibplugin'
 rootProject.name = "bindinglibplugin"

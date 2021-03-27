@@ -1,4 +1,3 @@
 include ':recyclerviewbindinglib'
-include ':bindinglibplugin'
 include ':app'
 rootProject.name = "RecyclerViewBindings"
