@@ -2,7 +2,7 @@
 .gradle
 local.properties
 /bindinglibplugin/.idea/caches/
-/bindinglibplugin/gradle/wrapper/
+/bindinglibplugin/gradle/wrapper/gradle-wrapper.jar
 /bindinglibplugin/.idea/libraries/
 /.idea/
 /.idea/caches/
