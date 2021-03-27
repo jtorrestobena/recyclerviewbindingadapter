@@ -31,7 +31,15 @@ jobs:
           java-version: 1.8
 
       - name: Publish Plugin
-        run: ./bindinglibplugin/gradlew publishPluginMavenPublicationToMavenLocal
+        id: publishPlugin
+        uses: eskatos/gradle-command-action@v1.3.3
+        with:
+          wrapper-directory: bindinglibplugin
+          gradle-version: current
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+          configuration-cache-enabled: true
+          arguments: publishPluginMavenPublicationToMavenLocal
 
       ## Build all our Build Types at once ##
       - name: Build all artifacts
