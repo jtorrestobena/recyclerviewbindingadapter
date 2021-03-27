@@ -45,10 +45,24 @@ jobs:
           arguments: assembleRelease
           
       - name: Run Kotlin Linter
-        run: ./gradlew ktlintStagingDebugCheck
+        id: ktlintStagingDebugCheck
+        uses: eskatos/gradle-command-action@v1.3.3
+        with:
+          gradle-version: current
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+          configuration-cache-enabled: true
+          arguments: ktlintStagingDebugCheck
 
       - name: Run Unit Tests
-        run: ./gradlew testStagingDebugUnitTest
+        id: testStagingDebugUnitTest
+        uses: eskatos/gradle-command-action@v1.3.3
+        with:
+          gradle-version: current
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+          configuration-cache-enabled: true
+          arguments: testStagingDebugUnitTest
       
       - name: Run UI Tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -57,4 +71,4 @@ jobs:
           target: default
           arch: x86
           profile: Nexus 6
-          script: ./gradlew connectedCheck --stacktrace
+          script: sh gradlew connectedCheck --stacktrace
