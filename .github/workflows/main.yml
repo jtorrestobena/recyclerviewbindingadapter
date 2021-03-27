@@ -31,7 +31,7 @@ jobs:
           java-version: 1.8
 
       - name: Publish Plugin
-        run: sh bindinglibplugin/gradlew publishPluginMavenPublicationToMavenLocal
+        run: cd bindinglibplugin && gradle wrapper && gradlew publishPluginMavenPublicationToMavenLocal
 
       ## Build all our Build Types at once ##
       - name: Build all artifacts
