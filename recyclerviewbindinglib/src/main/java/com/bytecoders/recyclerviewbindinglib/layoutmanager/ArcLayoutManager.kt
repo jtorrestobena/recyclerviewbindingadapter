@@ -9,8 +9,7 @@ import kotlin.math.PI
 import kotlin.math.acos
 import kotlin.math.sin
 
-class ArcLayoutManager(
-    private val context: Context,
+class ArcLayoutManager(context: Context,
     private var horizontalOffset: Int = 0
 ) : RecyclerView.LayoutManager() {
 
@@ -18,6 +17,9 @@ class ArcLayoutManager(
     private val displayCenter = displayWidth / 2
     private var canScrollLeft = true
     private var canScrollRight = true
+
+    private val viewWidth = pxFromDp(context, 90f)
+    private val viewHeight = pxFromDp(context, 90f)
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams =
         RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
@@ -50,13 +52,8 @@ class ArcLayoutManager(
         canScrollRight = true
 
         for (itemIndex in 0 until itemCount) {
-            val viewWidth = pxFromDp(context, 90f)
-            val viewHeight = pxFromDp(context, 90f)
-
             val left = (itemIndex * viewWidth) - horizontalOffset
             val right = left + viewWidth
-            val top = computeYComponent((left + right) / 2, viewHeight)
-            val bottom = top.first + viewHeight
 
             if (itemIndex == 0 && left > displayCenter) {
                 canScrollLeft = false
@@ -68,6 +65,9 @@ class ArcLayoutManager(
 
             if (right < 0) continue
             if (left > displayWidth) break
+
+            val top = computeYComponent((left + right) / 2, viewHeight)
+            val bottom = top.first + viewHeight
 
             val view = recycler.getViewForPosition(itemIndex)
             addView(view)
@@ -90,14 +90,14 @@ class ArcLayoutManager(
         }
     }
 
-    private fun computeYComponent(viewCenterX: Float,
-                                  h: Float): Pair<Int, Double> {
-        val screenWidth = context.resources.displayMetrics.widthPixels
-        val s = screenWidth.toDouble() / 2
-        val radius = (h * h + s * s) / (h * 2)
+    private fun computeYComponent(
+        viewCenterX: Float,
+        h: Float
+    ): Pair<Int, Double> {
+        val radius = (h * h + displayCenter * displayCenter) / (h * 2)
 
-        val xScreenFraction = viewCenterX.toDouble() / screenWidth.toDouble()
-        val beta = acos(s / radius)
+        val xScreenFraction = viewCenterX.toDouble() / displayWidth.toDouble()
+        val beta = acos(displayCenter / radius)
 
         val alpha = beta + (xScreenFraction * (Math.PI - (2 * beta)))
         val yComponent = radius - (radius * sin(alpha))
