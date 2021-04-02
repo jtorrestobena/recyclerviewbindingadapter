@@ -15,6 +15,9 @@ class ArcLayoutManager(
 ) : RecyclerView.LayoutManager() {
 
     private val displayWidth = Resources.getSystem().displayMetrics.widthPixels
+    private val displayCenter = displayWidth / 2
+    private var canScrollLeft = true
+    private var canScrollRight = true
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams =
         RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
@@ -26,6 +29,7 @@ class ArcLayoutManager(
         recycler: RecyclerView.Recycler?,
         state: RecyclerView.State?
     ): Int {
+        if ((dx < 0 && !canScrollLeft) || (dx > 0 && !canScrollRight)) return 0
         horizontalOffset += dx
         fill(recycler, state)
         return dx
@@ -42,6 +46,9 @@ class ArcLayoutManager(
 
         if (state == null || state.itemCount == 0) return
 
+        canScrollLeft = true
+        canScrollRight = true
+
         for (itemIndex in 0 until itemCount) {
             val viewWidth = pxFromDp(context, 90f)
             val viewHeight = pxFromDp(context, 90f)
@@ -50,6 +57,14 @@ class ArcLayoutManager(
             val right = left + viewWidth
             val top = computeYComponent((left + right) / 2, viewHeight)
             val bottom = top.first + viewHeight
+
+            if (itemIndex == 0 && left > displayCenter) {
+                canScrollLeft = false
+            }
+
+            if (itemIndex == (itemCount - 1) && right < displayCenter) {
+                canScrollRight = false
+            }
 
             if (right < 0) continue
             if (left > displayWidth) break

@@ -33,7 +33,7 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             // Load a list of items
             val itemList = mutableListOf<SampleModel>()
-            for (i in 1 until NUM_ITEMS) {
+            for (i in 1 .. NUM_ITEMS) {
                 itemList.add(SampleModel(i, "Item $i", itemClicked))
             }
             withContext(Dispatchers.Main) {
