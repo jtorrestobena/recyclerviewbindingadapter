@@ -10,7 +10,18 @@ fun RecyclerView.bindModel(
 ) {
     if (model == null) return
 
-    adapter = RecyclerViewBindingAdapter(model, recyclerViewConfiguration)
+    // If there's an adapter update data
+    (adapter as? RecyclerViewBindingAdapter)?.let {
+        if (it.recyclerViewConfiguration == recyclerViewConfiguration) {
+            // Configuration has not changed so just update the model
+            it.updateData(model)
+        } else {
+            adapter = RecyclerViewBindingAdapter(model, recyclerViewConfiguration)
+        }
+    } ?: run {
+        adapter = RecyclerViewBindingAdapter(model, recyclerViewConfiguration)
+    }
+
     layoutManager = recyclerViewConfiguration.getLayoutManager(context)
 
     if (onFlingListener == null) {

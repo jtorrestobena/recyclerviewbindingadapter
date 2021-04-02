@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.*
+import com.bytecoders.recyclerviewbindinglib.diff.BindingAdapterDiffCallback
 import com.bytecoders.recyclerviewbindinglib.layoutmanager.ArcLayoutManager
 import com.bytecoders.recyclerviewbindinglib.viewholder.*
 import kotlin.reflect.KClass
+
 
 typealias ClassLayoutMapping = Map<KClass<*>, Int>
 
@@ -29,28 +28,61 @@ enum class Snap {
     PAGER
 }
 
-class RecyclerViewConfiguration(val layoutIds: ClassLayoutMapping, private val recyclerViewType: RecyclerViewType, val viewHolderConfiguration: ViewHolderConfiguration, val snap: Snap? = null) {
+class RecyclerViewConfiguration(
+    val layoutIds: ClassLayoutMapping,
+    private val recyclerViewType: RecyclerViewType,
+    val viewHolderConfiguration: ViewHolderConfiguration,
+    val snap: Snap? = null
+) {
     fun getLayoutManager(context: Context): RecyclerView.LayoutManager = when(recyclerViewType){
         is RecyclerViewVertical -> LinearLayoutManager(context)
-        is RecyclerViewHorizontal -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        is RecyclerViewHorizontal -> LinearLayoutManager(
+            context,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
         is RecyclerViewGrid -> GridLayoutManager(context, recyclerViewType.spanCount)
-        is RecyclerViewGridStaggeredVertical -> StaggeredGridLayoutManager(recyclerViewType.spanCount, StaggeredGridLayoutManager.VERTICAL)
-        is RecyclerViewGridStaggeredHorizontal -> StaggeredGridLayoutManager(recyclerViewType.spanCount, StaggeredGridLayoutManager.HORIZONTAL)
+        is RecyclerViewGridStaggeredVertical -> StaggeredGridLayoutManager(
+            recyclerViewType.spanCount,
+            StaggeredGridLayoutManager.VERTICAL
+        )
+        is RecyclerViewGridStaggeredHorizontal -> StaggeredGridLayoutManager(
+            recyclerViewType.spanCount,
+            StaggeredGridLayoutManager.HORIZONTAL
+        )
         is RecyclerViewCurved -> ArcLayoutManager(context, recyclerViewType.horizontalOffset)
     }
 }
 
-class RecyclerViewBindingAdapter(private val items: List<Any>, private val recyclerViewConfiguration: RecyclerViewConfiguration)
+class RecyclerViewBindingAdapter(
+    private var items: List<Any>,
+    internal val recyclerViewConfiguration: RecyclerViewConfiguration
+)
     : RecyclerView.Adapter<BindingViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): BindingViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BindingViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<ViewDataBinding>(
-                layoutInflater, viewType, parent, false)
+            layoutInflater, viewType, parent, false
+        )
         return when(recyclerViewConfiguration.viewHolderConfiguration) {
-            is StandardViewHolderConfiguration -> BindingViewHolder(binding, recyclerViewConfiguration.viewHolderConfiguration)
-            is ExpandableViewHolderConfiguration -> ExpandableViewHolder(binding, recyclerViewConfiguration.viewHolderConfiguration)
+            is StandardViewHolderConfiguration -> BindingViewHolder(
+                binding,
+                recyclerViewConfiguration.viewHolderConfiguration
+            )
+            is ExpandableViewHolderConfiguration -> ExpandableViewHolder(
+                binding,
+                recyclerViewConfiguration.viewHolderConfiguration
+            )
         }
+    }
+
+    fun updateData(newItems: List<Any>) {
+        val diffResult = DiffUtil.calculateDiff(BindingAdapterDiffCallback(items, newItems))
+        items = newItems
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
