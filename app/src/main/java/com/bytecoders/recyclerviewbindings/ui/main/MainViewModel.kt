@@ -30,16 +30,20 @@ class MainViewModel : ViewModel() {
 
     fun load(preferences: SharedPreferences?) {
         setupRecyclerView(preferences)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
+            recyclerViewModel.value = createItemList()
+        }
+    }
+
+    private suspend fun createItemList(): MutableList<SampleModel> {
+        val itemList = mutableListOf<SampleModel>()
+        withContext(Dispatchers.IO) {
             // Load a list of items
-            val itemList = mutableListOf<SampleModel>()
-            for (i in 1 .. NUM_ITEMS) {
+            for (i in 1..NUM_ITEMS) {
                 itemList.add(SampleModel(i, "Item $i", itemClicked))
             }
-            withContext(Dispatchers.Main) {
-                recyclerViewModel.value = itemList
-            }
         }
+        return itemList
     }
 
     private fun setupRecyclerView(preferences: SharedPreferences?) {

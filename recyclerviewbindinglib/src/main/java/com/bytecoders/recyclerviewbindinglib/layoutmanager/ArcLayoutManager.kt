@@ -5,12 +5,16 @@ import android.content.res.Resources
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.RecyclerView
+import com.bytecoders.recyclerviewbindinglib.extensions.dpToPixels
 import kotlin.math.PI
 import kotlin.math.acos
 import kotlin.math.sin
 
-class ArcLayoutManager(context: Context,
-    private var horizontalOffset: Int = 0
+class ArcLayoutManager(
+    context: Context,
+    private var horizontalOffset: Int = 0,
+    widthDp: Float = 90F,
+    heightDp: Float = 90F,
 ) : RecyclerView.LayoutManager() {
 
     private val displayWidth = Resources.getSystem().displayMetrics.widthPixels
@@ -18,8 +22,8 @@ class ArcLayoutManager(context: Context,
     private var canScrollLeft = true
     private var canScrollRight = true
 
-    private val viewWidth = pxFromDp(context, 90f)
-    private val viewHeight = pxFromDp(context, 90f)
+    private val viewWidth = widthDp.dpToPixels(context)
+    private val viewHeight = heightDp.dpToPixels(context)
 
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams =
         RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
@@ -103,9 +107,5 @@ class ArcLayoutManager(context: Context,
         val yComponent = radius - (radius * sin(alpha))
 
         return Pair(yComponent.toInt(), alpha)
-    }
-
-    private fun pxFromDp(context: Context, dp: Float): Float {
-        return dp * context.resources.displayMetrics.density
     }
 }
