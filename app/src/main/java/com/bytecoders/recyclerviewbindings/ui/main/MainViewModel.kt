@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val NUM_ITEMS = 200
+private const val NUM_ITEMS = 2000
 class MainViewModel : ViewModel() {
     /**
      * If you forget to add mappings between model classes and layouts you will get

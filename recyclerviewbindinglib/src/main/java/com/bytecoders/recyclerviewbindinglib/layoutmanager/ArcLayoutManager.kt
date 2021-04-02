@@ -1,6 +1,7 @@
 package com.bytecoders.recyclerviewbindinglib.layoutmanager
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,9 @@ class ArcLayoutManager(
     private val context: Context,
     private var horizontalOffset: Int = 0
 ) : RecyclerView.LayoutManager() {
+
+    private val displayWidth = Resources.getSystem().displayMetrics.widthPixels
+
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams =
         RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
 
@@ -36,10 +40,9 @@ class ArcLayoutManager(
     private fun fill(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
         detachAndScrapAttachedViews(recycler ?: return)
 
-        for (itemIndex in 0 until itemCount) {
-            val view = recycler.getViewForPosition(itemIndex)
-            addView(view)
+        if (state == null || state.itemCount == 0) return
 
+        for (itemIndex in 0 until itemCount) {
             val viewWidth = pxFromDp(context, 90f)
             val viewHeight = pxFromDp(context, 90f)
 
@@ -47,6 +50,12 @@ class ArcLayoutManager(
             val right = left + viewWidth
             val top = computeYComponent((left + right) / 2, viewHeight)
             val bottom = top.first + viewHeight
+
+            if (right < 0) continue
+            if (left > displayWidth) break
+
+            val view = recycler.getViewForPosition(itemIndex)
+            addView(view)
 
             val alpha = top.second
             view.rotation = (alpha * (180 / PI)).toFloat() - 90f
