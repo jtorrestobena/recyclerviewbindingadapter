@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.bytecoders.recyclerviewbindings.R
 import com.bytecoders.recyclerviewbindings.databinding.MainFragmentBinding
+import com.bytecoders.recyclerviewbindings.model.SampleModel
 import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
@@ -50,6 +51,13 @@ class MainFragment : Fragment() {
 
         viewModel.itemClicked.observe(viewLifecycleOwner, {
             Snackbar.make(view, "You clicked on item ${it.text}", Snackbar.LENGTH_LONG).show()
+        })
+
+        viewModel.itemDeletedEvent.observe(viewLifecycleOwner, { deletedItem ->
+            val modelItem: SampleModel = deletedItem.item as SampleModel
+            val undoAction = Snackbar.make(view, "Deleted ${modelItem.text}", Snackbar.LENGTH_LONG)
+            undoAction.setAction("Undo") { deletedItem.undoDelete() }
+            undoAction.show()
         })
     }
 

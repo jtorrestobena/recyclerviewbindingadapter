@@ -8,6 +8,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.*
 import com.bytecoders.recyclerviewbindinglib.diff.BindingAdapterDiffCallback
 import com.bytecoders.recyclerviewbindinglib.layoutmanager.ArcLayoutManager
+import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeConfiguration
 import com.bytecoders.recyclerviewbindinglib.viewholder.*
 import kotlin.reflect.KClass
 
@@ -32,7 +33,8 @@ class RecyclerViewConfiguration(
     val layoutIds: ClassLayoutMapping,
     private val recyclerViewType: RecyclerViewType,
     val viewHolderConfiguration: ViewHolderConfiguration,
-    val snap: Snap? = null
+    val snap: Snap? = null,
+    val swipeConfiguration: SwipeConfiguration? = null
 ) {
     fun getLayoutManager(context: Context): RecyclerView.LayoutManager = when(recyclerViewType){
         is RecyclerViewVertical -> LinearLayoutManager(context)
@@ -54,11 +56,13 @@ class RecyclerViewConfiguration(
     }
 }
 
-class RecyclerViewBindingAdapter(
-    private var items: List<Any>,
+class RecyclerViewBindingAdapter(_items: List<Any>,
     internal val recyclerViewConfiguration: RecyclerViewConfiguration
 )
     : RecyclerView.Adapter<BindingViewHolder>() {
+
+    private val items: MutableList<Any> = _items.toMutableList()
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -81,7 +85,8 @@ class RecyclerViewBindingAdapter(
 
     fun updateData(newItems: List<Any>) {
         val diffResult = DiffUtil.calculateDiff(BindingAdapterDiffCallback(items, newItems))
-        items = newItems
+        items.clear()
+        items.addAll(newItems)
         diffResult.dispatchUpdatesTo(this)
     }
 
@@ -101,5 +106,17 @@ class RecyclerViewBindingAdapter(
     override fun onViewDetachedFromWindow(holder: BindingViewHolder) {
         super.onViewDetachedFromWindow(holder)
         (holder as? ExpandableViewHolder)?.close()
+    }
+
+    internal fun getItemOnPosition(position: Int): Any = items[position]
+
+    internal fun deleteItemOnPosition(position: Int) {
+        items.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    internal fun addItemOnPosition(position: Int, item: Any) {
+        items.add(position, item)
+        notifyItemInserted(position)
     }
 }

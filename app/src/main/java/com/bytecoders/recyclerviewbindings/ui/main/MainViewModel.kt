@@ -5,6 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bytecoders.recyclerviewbindinglib.*
+import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeConfiguration
+import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeDirection
+import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipedItem
 import com.bytecoders.recyclerviewbindinglib.viewholder.StandardViewHolderConfiguration
 import com.bytecoders.recyclerviewbindings.BR
 import com.bytecoders.recyclerviewbindings.R
@@ -15,16 +18,26 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 private const val NUM_ITEMS = 2000
+
 class MainViewModel : ViewModel() {
     /**
      * If you forget to add mappings between model classes and layouts you will get
      *
      * java.lang.IllegalStateException: No layout id defined for class ...
      **/
-    private val layoutMapping: ClassLayoutMapping = mapOf(SampleModel::class to R.layout.item_recyclerview_sample_model_text)
+    private val layoutMapping: ClassLayoutMapping =
+        mapOf(SampleModel::class to R.layout.item_recyclerview_sample_model_text)
     val recyclerViewModel = MutableLiveData<List<SampleModel>>()
+    val itemDeletedEvent = SingleLiveEvent<SwipedItem>()
+    private val swipeBothSidesConfiguration = SwipeConfiguration(false, SwipeDirection.BOTH) {
+        it.delete() // Delete item
+        itemDeletedEvent.value = it
+    }
+
     val recyclerViewConfiguration = MutableLiveData(
-        RecyclerViewConfiguration(layoutMapping, RecyclerViewVertical, StandardViewHolderConfiguration(BR.model)))
+        RecyclerViewConfiguration(
+            layoutMapping, RecyclerViewVertical, StandardViewHolderConfiguration(BR.model), swipeConfiguration = swipeBothSidesConfiguration)
+    )
 
     val itemClicked = SingleLiveEvent<SampleModel>()
 
@@ -51,7 +64,7 @@ class MainViewModel : ViewModel() {
         val snap = preferences.getBoolean("snap", false)
         val recyclerViewType = preferences.getString("recyclerview_type", null)
 
-        val itemAnimation: Int? = when(preferences.getString("animation_type", null)) {
+        val itemAnimation: Int? = when (preferences.getString("animation_type", null)) {
             "expand_center" -> R.anim.expand_center
             "right_to_left" -> R.anim.right_to_left
             "right_to_left_fade" -> R.anim.right_to_left_fade
@@ -74,6 +87,8 @@ class MainViewModel : ViewModel() {
                 else -> RecyclerViewVertical
             },
             StandardViewHolderConfiguration(BR.model, itemAnimation),
-            if (snap) Snap.LINEAR else null)
+            if (snap) Snap.LINEAR else null,
+            swipeBothSidesConfiguration
+        )
     }
 }

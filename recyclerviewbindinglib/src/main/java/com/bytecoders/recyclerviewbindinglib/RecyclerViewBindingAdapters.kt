@@ -1,8 +1,10 @@
 package com.bytecoders.recyclerviewbindinglib
 
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bytecoders.recyclerviewbindinglib.touchhelper.TouchHelper
 
 fun RecyclerView.bindModel(
     model: List<Any>?,
@@ -29,5 +31,10 @@ fun RecyclerView.bindModel(
             Snap.LINEAR -> LinearSnapHelper().attachToRecyclerView(this)
             Snap.PAGER -> PagerSnapHelper().attachToRecyclerView(this)
         }
+    }
+
+    recyclerViewConfiguration.swipeConfiguration?.let {
+        val itemTouchHelper = ItemTouchHelper(TouchHelper(adapter as RecyclerViewBindingAdapter, it))
+        itemTouchHelper.attachToRecyclerView(this)
     }
 }
