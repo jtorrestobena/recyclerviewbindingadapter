@@ -29,4 +29,10 @@
         <item>right_to_left</item>
         <item>right_to_left_fade</item>
     </string-array>
+
+    <string-array name="recyclerview_helper">
+        <item>None</item>
+        <item>Swipe2delete</item>
+        <item>Reorder</item>
+    </string-array>
 </resources>

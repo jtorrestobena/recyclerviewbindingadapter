@@ -1,10 +1,8 @@
 package com.bytecoders.recyclerviewbindinglib
 
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.bytecoders.recyclerviewbindinglib.touchhelper.TouchHelper
 
 fun RecyclerView.bindModel(
     model: List<Any>?,
@@ -14,6 +12,7 @@ fun RecyclerView.bindModel(
 
     // If there's an adapter update data
     (adapter as? RecyclerViewBindingAdapter)?.let {
+        it.clearTouchHelpers()
         if (it.recyclerViewConfiguration == recyclerViewConfiguration) {
             // Configuration has not changed so just update the model
             it.updateData(model)
@@ -33,8 +32,10 @@ fun RecyclerView.bindModel(
         }
     }
 
-    recyclerViewConfiguration.swipeConfiguration?.let {
-        val itemTouchHelper = ItemTouchHelper(TouchHelper(adapter as RecyclerViewBindingAdapter, it))
-        itemTouchHelper.attachToRecyclerView(this)
+    (adapter as? RecyclerViewBindingAdapter)?.let { recyclerViewBindingAdapter ->
+        recyclerViewBindingAdapter.createTouchHelper(recyclerViewConfiguration.swipeConfiguration)
+            ?.attachToRecyclerView(this)
+        recyclerViewBindingAdapter.createTouchHelper(recyclerViewConfiguration.dragConfiguration)
+            ?.attachToRecyclerView(this)
     }
 }

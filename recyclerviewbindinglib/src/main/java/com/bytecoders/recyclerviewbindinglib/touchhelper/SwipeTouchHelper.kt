@@ -11,7 +11,6 @@ enum class SwipeDirection {
 }
 
 data class SwipeConfiguration(
-    val allowDrag: Boolean = false,
     val swipeDirection: SwipeDirection = SwipeDirection.LEFT,
     val swipeCallback: (SwipedItem) -> Unit
 ) {
@@ -38,7 +37,7 @@ data class SwipedItem(
     }
 }
 
-class TouchHelper(
+class SwipeTouchHelper(
     private val adapter: RecyclerViewBindingAdapter,
     private val swipeConfiguration: SwipeConfiguration
 ) : ItemTouchHelper.SimpleCallback(0, swipeConfiguration.touchHelperFlags) {

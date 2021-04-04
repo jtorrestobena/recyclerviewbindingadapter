@@ -24,4 +24,11 @@
         app:entries="@array/recyclerview_animation"
         app:entryValues="@array/recyclerview_animation"
         app:summary="Select Animation type"/>
+
+    <ListPreference
+        app:key="helper_type"
+        app:title="Helper"
+        app:entries="@array/recyclerview_helper"
+        app:entryValues="@array/recyclerview_helper"
+        app:summary="Select Recyclerview helper"/>
 </PreferenceScreen>

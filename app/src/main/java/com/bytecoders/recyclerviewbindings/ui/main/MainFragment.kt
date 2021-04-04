@@ -59,6 +59,10 @@ class MainFragment : Fragment() {
             undoAction.setAction("Undo") { deletedItem.undoDelete() }
             undoAction.show()
         })
+
+        viewModel.itemMovedEvent.observe(viewLifecycleOwner, {
+            Snackbar.make(view, "Move item from ${it.first} to ${it.second}", Snackbar.LENGTH_LONG).show()
+        })
     }
 
 }

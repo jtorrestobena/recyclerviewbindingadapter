@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bytecoders.recyclerviewbindinglib.*
+import com.bytecoders.recyclerviewbindinglib.touchhelper.DragConfiguration
+import com.bytecoders.recyclerviewbindinglib.touchhelper.DragDirection
 import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeConfiguration
-import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeDirection
+import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeDirection.BOTH
 import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipedItem
 import com.bytecoders.recyclerviewbindinglib.viewholder.StandardViewHolderConfiguration
 import com.bytecoders.recyclerviewbindings.BR
@@ -19,6 +21,12 @@ import kotlinx.coroutines.withContext
 
 private const val NUM_ITEMS = 2000
 
+enum class HelperConfig {
+    NONE,
+    SWIPE_DELETE,
+    REORDER
+}
+
 class MainViewModel : ViewModel() {
     /**
      * If you forget to add mappings between model classes and layouts you will get
@@ -29,14 +37,24 @@ class MainViewModel : ViewModel() {
         mapOf(SampleModel::class to R.layout.item_recyclerview_sample_model_text)
     val recyclerViewModel = MutableLiveData<List<SampleModel>>()
     val itemDeletedEvent = SingleLiveEvent<SwipedItem>()
-    private val swipeBothSidesConfiguration = SwipeConfiguration(false, SwipeDirection.BOTH) {
+    val itemMovedEvent = SingleLiveEvent<Pair<Int, Int>>()
+    private val swipeBothSidesConfiguration = SwipeConfiguration(BOTH) {
         it.delete() // Delete item
         itemDeletedEvent.value = it
     }
 
+    private val dragConfiguration = DragConfiguration(DragDirection.ALL_DIRECTIONS) { from, to ->
+        itemMovedEvent.value = Pair(from, to)
+    }
+
+    private var helperConfig = HelperConfig.NONE
+
     val recyclerViewConfiguration = MutableLiveData(
         RecyclerViewConfiguration(
-            layoutMapping, RecyclerViewVertical, StandardViewHolderConfiguration(BR.model), swipeConfiguration = swipeBothSidesConfiguration)
+            layoutMapping, RecyclerViewVertical, StandardViewHolderConfiguration(BR.model),
+            swipeConfiguration = if (helperConfig == HelperConfig.SWIPE_DELETE) swipeBothSidesConfiguration else null,
+            dragConfiguration = if (helperConfig == HelperConfig.REORDER) dragConfiguration else null
+        )
     )
 
     val itemClicked = SingleLiveEvent<SampleModel>()
@@ -76,6 +94,12 @@ class MainViewModel : ViewModel() {
             "res/layout/item_recyclerview_sample_model_text_circle.xml" -> R.layout.item_recyclerview_sample_model_text_circle
             else -> R.layout.item_recyclerview_sample_model_text
         }
+        helperConfig = when (preferences.getString("helper_type", null)) {
+            "Swipe2delete" -> HelperConfig.SWIPE_DELETE
+            "Reorder" -> HelperConfig.REORDER
+            else -> HelperConfig.NONE
+        }
+
         recyclerViewConfiguration.value = RecyclerViewConfiguration(
             mapOf(SampleModel::class to layoutId),
             when (recyclerViewType) {
@@ -88,7 +112,8 @@ class MainViewModel : ViewModel() {
             },
             StandardViewHolderConfiguration(BR.model, itemAnimation),
             if (snap) Snap.LINEAR else null,
-            swipeBothSidesConfiguration
+            swipeConfiguration = if (helperConfig == HelperConfig.SWIPE_DELETE) swipeBothSidesConfiguration else null,
+            dragConfiguration = if (helperConfig == HelperConfig.REORDER) dragConfiguration else null
         )
     }
 }
