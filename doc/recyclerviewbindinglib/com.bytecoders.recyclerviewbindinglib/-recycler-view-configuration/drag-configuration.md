@@ -3,3 +3,6 @@
 # dragConfiguration
 
 `val dragConfiguration: `[`DragConfiguration`](../../com.bytecoders.recyclerviewbindinglib.touchhelper/-drag-configuration/index.md)`?`
+
+Configuration for item dragging / reordering functionality
+

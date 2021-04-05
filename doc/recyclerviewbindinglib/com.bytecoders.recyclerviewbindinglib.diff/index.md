@@ -2,6 +2,8 @@
 
 ## Package com.bytecoders.recyclerviewbindinglib.diff
 
+Diff utilities for loading changes efficiently
+
 ### Types
 
 | Name | Summary |

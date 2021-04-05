@@ -2,6 +2,8 @@
 
 ## Package com.bytecoders.recyclerviewbindinglib.touchhelper
 
+Custom touch helpers for Swipe and Drag
+
 ### Types
 
 | Name | Summary |

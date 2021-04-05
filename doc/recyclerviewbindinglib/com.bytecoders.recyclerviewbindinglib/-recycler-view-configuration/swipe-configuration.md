@@ -3,3 +3,6 @@
 # swipeConfiguration
 
 `val swipeConfiguration: `[`SwipeConfiguration`](../../com.bytecoders.recyclerviewbindinglib.touchhelper/-swipe-configuration/index.md)`?`
+
+Configuration for item swipe functionality
+

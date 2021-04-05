@@ -3,3 +3,9 @@
 # updateData
 
 `fun updateData(newItems: `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`>): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)
+
+Set a new list of items and calculate the change diff
+
+### Parameters
+
+`newItems` - List of new items

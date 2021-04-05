@@ -6,3 +6,6 @@
 
 Layout items in a staggered grid formation. Horizontal layout
 
+### Parameters
+
+`spanCount` - Number of items in the same line / row

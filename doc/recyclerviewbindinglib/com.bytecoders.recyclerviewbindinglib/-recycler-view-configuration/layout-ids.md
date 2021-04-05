@@ -3,3 +3,6 @@
 # layoutIds
 
 `val layoutIds: `[`ClassLayoutMapping`](../-class-layout-mapping.md)
+
+Map each model class to its layout
+

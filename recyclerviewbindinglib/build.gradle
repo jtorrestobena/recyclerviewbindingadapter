@@ -32,6 +32,7 @@ android {
     }
 
     dokka {
+        includes = ["$rootDir/doc/packages.md".toString()]
         outputFormat = 'gfm'
         outputDirectory = "$rootDir/doc"
     }

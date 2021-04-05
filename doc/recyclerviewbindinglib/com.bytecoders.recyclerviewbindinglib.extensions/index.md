@@ -2,6 +2,8 @@
 
 ## Package com.bytecoders.recyclerviewbindinglib.extensions
 
+Kotlin Extensions
+
 ### Extensions for External Classes
 
 | Name | Summary |

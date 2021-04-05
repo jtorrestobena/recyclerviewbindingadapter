@@ -3,3 +3,6 @@
 # LINEAR
 
 `LINEAR`
+
+Setup LinearSnapHelper
+

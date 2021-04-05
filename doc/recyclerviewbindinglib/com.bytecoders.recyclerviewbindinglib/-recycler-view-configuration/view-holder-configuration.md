@@ -3,3 +3,6 @@
 # viewHolderConfiguration
 
 `val viewHolderConfiguration: `[`ViewHolderConfiguration`](../../com.bytecoders.recyclerviewbindinglib.viewholder/-view-holder-configuration.md)
+
+Configuration for individual items
+

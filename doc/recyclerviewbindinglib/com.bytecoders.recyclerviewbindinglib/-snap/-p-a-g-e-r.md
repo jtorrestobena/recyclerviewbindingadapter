@@ -3,3 +3,6 @@
 # PAGER
 
 `PAGER`
+
+Setup PagerSnapHelper
+

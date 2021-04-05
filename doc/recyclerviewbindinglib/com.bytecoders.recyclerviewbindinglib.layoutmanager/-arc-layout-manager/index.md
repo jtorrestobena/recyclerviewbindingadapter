@@ -4,11 +4,13 @@
 
 `class ArcLayoutManager : LayoutManager`
 
+Draws items on the screen showing an Arc
+
 ### Constructors
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `ArcLayoutManager(context: `[`Context`](https://developer.android.com/reference/android/content/Context.html)`, horizontalOffset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)` = 0, widthDp: `[`Float`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html)` = 90F, heightDp: `[`Float`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html)` = 90F)` |
+| [&lt;init&gt;](-init-.md) | `ArcLayoutManager(context: `[`Context`](https://developer.android.com/reference/android/content/Context.html)`, horizontalOffset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)` = 0, widthDp: `[`Float`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html)` = 90F, heightDp: `[`Float`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html)` = 90F)`<br>Draws items on the screen showing an Arc |
 
 ### Functions
 

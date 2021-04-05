@@ -10,6 +10,9 @@ import kotlin.math.PI
 import kotlin.math.acos
 import kotlin.math.sin
 
+/**
+ * Draws items on the screen showing an Arc
+ */
 class ArcLayoutManager(
     context: Context,
     private var horizontalOffset: Int = 0,

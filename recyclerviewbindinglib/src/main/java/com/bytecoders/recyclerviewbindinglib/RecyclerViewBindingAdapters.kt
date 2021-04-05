@@ -4,6 +4,16 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * Binds the model. This function can be called as many times as needed.
+ *
+ * Ideally will be called by Android Data Binding system itself.
+ *
+ * See the binding generator plugin for automating this process
+ *
+ * @param model list of models for the items
+ * @param recyclerViewConfiguration model for RecyclerView presentation
+ */
 fun RecyclerView.bindModel(
     model: List<Any>?,
     recyclerViewConfiguration: RecyclerViewConfiguration

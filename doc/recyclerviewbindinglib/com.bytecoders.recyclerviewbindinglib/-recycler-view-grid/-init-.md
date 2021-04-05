@@ -6,3 +6,6 @@
 
 Layout items in a Grid
 
+### Parameters
+
+`spanCount` - Number of items in the same line / row

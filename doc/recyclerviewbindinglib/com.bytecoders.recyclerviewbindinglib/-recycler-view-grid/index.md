@@ -6,6 +6,10 @@
 
 Layout items in a Grid
 
+### Parameters
+
+`spanCount` - Number of items in the same line / row
+
 ### Constructors
 
 | Name | Summary |
@@ -16,7 +20,7 @@ Layout items in a Grid
 
 | Name | Summary |
 |---|---|
-| [spanCount](span-count.md) | `val spanCount: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
+| [spanCount](span-count.md) | `val spanCount: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)<br>Number of items in the same line / row |
 
 ### Inheritors
 

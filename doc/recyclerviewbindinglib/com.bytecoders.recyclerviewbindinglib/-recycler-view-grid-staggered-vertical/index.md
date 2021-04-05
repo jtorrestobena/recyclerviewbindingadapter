@@ -6,6 +6,10 @@
 
 Layout items in a staggered grid formation. Vertical layout
 
+### Parameters
+
+`spanCount` - Number of items in the same line / row
+
 ### Constructors
 
 | Name | Summary |
@@ -16,4 +20,4 @@ Layout items in a staggered grid formation. Vertical layout
 
 | Name | Summary |
 |---|---|
-| [spanCount](../-recycler-view-grid/span-count.md) | `val spanCount: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
+| [spanCount](../-recycler-view-grid/span-count.md) | `val spanCount: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)<br>Number of items in the same line / row |

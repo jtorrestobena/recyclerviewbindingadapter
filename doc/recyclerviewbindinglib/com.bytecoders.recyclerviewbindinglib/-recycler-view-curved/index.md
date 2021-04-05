@@ -6,6 +6,10 @@
 
 Items are layout showing an Arc
 
+### Parameters
+
+`horizontalOffset` - initial offset for drawing items
+
 ### Constructors
 
 | Name | Summary |
@@ -16,4 +20,4 @@ Items are layout showing an Arc
 
 | Name | Summary |
 |---|---|
-| [horizontalOffset](horizontal-offset.md) | `val horizontalOffset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
+| [horizontalOffset](horizontal-offset.md) | `val horizontalOffset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)<br>initial offset for drawing items |

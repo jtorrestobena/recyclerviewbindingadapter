@@ -2,6 +2,8 @@
 
 ## Package com.bytecoders.recyclerviewbindinglib.viewholder
 
+Collection of ViewHolders for DataBinding, expand / collapse drag handlers
+
 ### Types
 
 | Name | Summary |

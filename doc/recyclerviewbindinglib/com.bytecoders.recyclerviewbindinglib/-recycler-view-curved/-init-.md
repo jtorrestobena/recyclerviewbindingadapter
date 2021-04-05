@@ -6,3 +6,6 @@
 
 Items are layout showing an Arc
 
+### Parameters
+
+`horizontalOffset` - initial offset for drawing items

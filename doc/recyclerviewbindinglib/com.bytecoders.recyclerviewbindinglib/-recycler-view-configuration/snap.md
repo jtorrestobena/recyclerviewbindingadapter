@@ -3,3 +3,6 @@
 # snap
 
 `val snap: `[`Snap`](../-snap/index.md)`?`
+
+How items shall be snapped
+

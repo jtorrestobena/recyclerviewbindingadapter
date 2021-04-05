@@ -4,6 +4,8 @@
 
 `sealed class RecyclerViewType`
 
+Base sealed class for all RecyclerView types available
+
 ### Inheritors
 
 | Name | Summary |
