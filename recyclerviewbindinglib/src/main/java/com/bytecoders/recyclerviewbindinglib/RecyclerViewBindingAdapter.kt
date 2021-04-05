@@ -13,6 +13,7 @@ import com.bytecoders.recyclerviewbindinglib.touchhelper.DragTouchHelper
 import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeConfiguration
 import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeTouchHelper
 import com.bytecoders.recyclerviewbindinglib.viewholder.*
+import java.util.*
 import kotlin.reflect.KClass
 
 
@@ -40,7 +41,7 @@ class RecyclerViewConfiguration(
     val swipeConfiguration: SwipeConfiguration? = null,
     val dragConfiguration: DragConfiguration? = null
 ) {
-    fun getLayoutManager(context: Context): RecyclerView.LayoutManager = when(recyclerViewType){
+    fun getLayoutManager(context: Context): RecyclerView.LayoutManager = when (recyclerViewType) {
         is RecyclerViewVertical -> LinearLayoutManager(context)
         is RecyclerViewHorizontal -> LinearLayoutManager(
             context,
@@ -60,13 +61,20 @@ class RecyclerViewConfiguration(
     }
 }
 
-class RecyclerViewBindingAdapter(_items: List<Any>,
+class RecyclerViewBindingAdapter(
+    _items: List<Any>,
     internal val recyclerViewConfiguration: RecyclerViewConfiguration
-)
-    : RecyclerView.Adapter<BindingViewHolder>() {
+) : RecyclerView.Adapter<BindingViewHolder>() {
+    private enum class TouchHelpers {
+        SWIPE,
+        DRAG
+    }
 
     private val items: MutableList<Any> = _items.toMutableList()
-    private val touchHelpers = mutableListOf<ItemTouchHelper>()
+    private val touchHelpers: EnumMap<TouchHelpers, ItemTouchHelper> =
+        EnumMap(TouchHelpers::class.java)
+
+    private var dragHelperProvider: TouchHelperProvider = { touchHelpers[TouchHelpers.DRAG] }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -76,7 +84,7 @@ class RecyclerViewBindingAdapter(_items: List<Any>,
         val binding = DataBindingUtil.inflate<ViewDataBinding>(
             layoutInflater, viewType, parent, false
         )
-        return when(recyclerViewConfiguration.viewHolderConfiguration) {
+        return when (recyclerViewConfiguration.viewHolderConfiguration) {
             is StandardViewHolderConfiguration -> BindingViewHolder(
                 binding,
                 recyclerViewConfiguration.viewHolderConfiguration
@@ -85,6 +93,13 @@ class RecyclerViewBindingAdapter(_items: List<Any>,
                 binding,
                 recyclerViewConfiguration.viewHolderConfiguration
             )
+            is DragHandleViewHolderConfiguration ->
+                DragHandleViewHolder(
+                    binding,
+                    recyclerViewConfiguration.viewHolderConfiguration,
+                    dragHelperProvider
+                )
+
         }
     }
 
@@ -135,20 +150,20 @@ class RecyclerViewBindingAdapter(_items: List<Any>,
     internal fun createTouchHelper(swipeConfiguration: SwipeConfiguration? = null): ItemTouchHelper? {
         swipeConfiguration ?: return null
         val itemTouchHelper = ItemTouchHelper(SwipeTouchHelper(this, swipeConfiguration))
-        touchHelpers.add(itemTouchHelper)
+        touchHelpers[TouchHelpers.SWIPE] = itemTouchHelper
         return itemTouchHelper
     }
 
     internal fun createTouchHelper(dragConfiguration: DragConfiguration? = null): ItemTouchHelper? {
         dragConfiguration ?: return null
         val itemTouchHelper = ItemTouchHelper(DragTouchHelper(this, dragConfiguration))
-        touchHelpers.add(itemTouchHelper)
+        touchHelpers[TouchHelpers.DRAG] = itemTouchHelper
         return itemTouchHelper
     }
 
     internal fun clearTouchHelpers() {
         touchHelpers.forEach {
-            it.attachToRecyclerView(null)
+            it.value.attachToRecyclerView(null)
         }
         touchHelpers.clear()
     }

@@ -15,12 +15,14 @@
         <item>@layout/item_recyclerview_sample_model_text</item>
         <item>@layout/item_recyclerview_sample_model_text_wrap_width</item>
         <item>@layout/item_recyclerview_sample_model_text_circle</item>
+        <item>@layout/item_recyclerview_sample_model_text_handle</item>
     </string-array>
 
     <integer-array name="recyclerview_layout_values">
         <item>@layout/item_recyclerview_sample_model_text</item>
         <item>@layout/item_recyclerview_sample_model_text_wrap_width</item>
         <item>@layout/item_recyclerview_sample_model_text_circle</item>
+        <item>@layout/item_recyclerview_sample_model_text_handle</item>
     </integer-array>
 
     <string-array name="recyclerview_animation">

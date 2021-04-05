@@ -10,6 +10,7 @@ import com.bytecoders.recyclerviewbindinglib.touchhelper.DragDirection
 import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeConfiguration
 import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeDirection.BOTH
 import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipedItem
+import com.bytecoders.recyclerviewbindinglib.viewholder.DragHandleViewHolderConfiguration
 import com.bytecoders.recyclerviewbindinglib.viewholder.StandardViewHolderConfiguration
 import com.bytecoders.recyclerviewbindings.BR
 import com.bytecoders.recyclerviewbindings.R
@@ -43,7 +44,9 @@ class MainViewModel : ViewModel() {
         itemDeletedEvent.value = it
     }
 
-    private val dragConfiguration = DragConfiguration(DragDirection.ALL_DIRECTIONS) { from, to ->
+    private val dragConfiguration = DragConfiguration(
+        DragDirection.ALL_DIRECTIONS
+    ) { from, to ->
         itemMovedEvent.value = Pair(from, to)
     }
 
@@ -89,15 +92,25 @@ class MainViewModel : ViewModel() {
             else -> null
         }
 
+        var handle = false
         val layoutId: Int = when (preferences.getString("layout_type", null)) {
             "res/layout/item_recyclerview_sample_model_text_wrap_width.xml" -> R.layout.item_recyclerview_sample_model_text_wrap_width
             "res/layout/item_recyclerview_sample_model_text_circle.xml" -> R.layout.item_recyclerview_sample_model_text_circle
+            "res/layout/item_recyclerview_sample_model_text_handle.xml" -> {
+                handle = true
+                R.layout.item_recyclerview_sample_model_text_handle
+            }
             else -> R.layout.item_recyclerview_sample_model_text
         }
+
         helperConfig = when (preferences.getString("helper_type", null)) {
             "Swipe2delete" -> HelperConfig.SWIPE_DELETE
             "Reorder" -> HelperConfig.REORDER
             else -> HelperConfig.NONE
+        }
+
+        if (handle) {
+            handle = (helperConfig == HelperConfig.REORDER)
         }
 
         recyclerViewConfiguration.value = RecyclerViewConfiguration(
@@ -110,7 +123,15 @@ class MainViewModel : ViewModel() {
                 "Curved" -> RecyclerViewCurved()
                 else -> RecyclerViewVertical
             },
-            StandardViewHolderConfiguration(BR.model, itemAnimation),
+            if (handle)
+                DragHandleViewHolderConfiguration(
+                    BR.model,
+                    R.id.dragHandle
+                )
+            else StandardViewHolderConfiguration(
+                BR.model,
+                itemAnimation
+            ),
             if (snap) Snap.LINEAR else null,
             swipeConfiguration = if (helperConfig == HelperConfig.SWIPE_DELETE) swipeBothSidesConfiguration else null,
             dragConfiguration = if (helperConfig == HelperConfig.REORDER) dragConfiguration else null

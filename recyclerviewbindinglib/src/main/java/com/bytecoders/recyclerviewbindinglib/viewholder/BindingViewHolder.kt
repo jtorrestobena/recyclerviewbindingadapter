@@ -6,16 +6,33 @@ import androidx.annotation.IdRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
+interface MainViewHolderConfig {
+    val variableId: Int
+    val itemAnimation: Int?
+}
+
 sealed class ViewHolderConfiguration
-open class StandardViewHolderConfiguration(val variableId: Int,
-                                           @AnimRes val itemAnimation: Int? = null): ViewHolderConfiguration()
+class StandardViewHolderConfiguration(
+    override val variableId: Int,
+    @AnimRes override val itemAnimation: Int? = null
+) : ViewHolderConfiguration(), MainViewHolderConfig
 
-class ExpandableViewHolderConfiguration(variableId: Int,
-                                        @IdRes val expandableTextResource: Int,
-                                        val collapsedLines: Int = 10) : StandardViewHolderConfiguration(variableId)
+class ExpandableViewHolderConfiguration(
+    override val variableId: Int,
+    @AnimRes override val itemAnimation: Int? = null,
+    @IdRes val expandableTextResource: Int,
+    val collapsedLines: Int = 10
+) : ViewHolderConfiguration(), MainViewHolderConfig
 
-open class BindingViewHolder(private val binding: ViewDataBinding, private val viewHolderConfiguration: StandardViewHolderConfiguration)
-    : RecyclerView.ViewHolder(binding.root) {
+class DragHandleViewHolderConfiguration(
+    override val variableId: Int, @IdRes val handleResource: Int,
+    override val itemAnimation: Int? = null
+) : ViewHolderConfiguration(), MainViewHolderConfig
+
+open class BindingViewHolder(
+    private val binding: ViewDataBinding,
+    private val viewHolderConfiguration: MainViewHolderConfig
+) : RecyclerView.ViewHolder(binding.root) {
     var item: Any = Any()
         set(value) {
             bind(value)
