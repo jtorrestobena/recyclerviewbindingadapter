@@ -6,6 +6,11 @@ import androidx.annotation.IdRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
+
+/**
+ * Takes care of abstracting all View configuration
+ * parameters and binding the model for a given item
+ */
 interface MainViewHolderConfig {
     val variableId: Int
     val itemAnimation: Int?

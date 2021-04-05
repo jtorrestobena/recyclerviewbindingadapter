@@ -21,11 +21,35 @@ typealias ClassLayoutMapping = Map<KClass<*>, Int>
 
 
 sealed class RecyclerViewType
+
+/**
+ * Layout items vertically
+ */
 object RecyclerViewVertical : RecyclerViewType()
+
+/**
+ * Layout items horizontally
+ */
 object RecyclerViewHorizontal : RecyclerViewType()
+
+/**
+ * Layout items in a Grid
+ */
 open class RecyclerViewGrid(val spanCount: Int) : RecyclerViewType()
+
+/**
+ * Layout items in a staggered grid formation. Vertical layout
+ */
 class RecyclerViewGridStaggeredVertical(spanCount: Int) : RecyclerViewGrid(spanCount)
+
+/**
+ * Layout items in a staggered grid formation. Horizontal layout
+ */
 class RecyclerViewGridStaggeredHorizontal(spanCount: Int) : RecyclerViewGrid(spanCount)
+
+/**
+ * Items are layout showing an Arc
+ */
 data class RecyclerViewCurved(val horizontalOffset: Int = 0) : RecyclerViewType()
 
 enum class Snap {

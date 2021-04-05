@@ -6,6 +6,10 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ItemTouchHelper
 
+/**
+ * Define a drag handler that will be used. This only works when
+ * dragging is enabled
+ */
 typealias TouchHelperProvider = () -> ItemTouchHelper?
 class DragHandleViewHolder(
     binding: ViewDataBinding,

@@ -1,10 +1,12 @@
 package com.bytecoders.recyclerviewbindinglib.viewholder
 
 import android.widget.TextView
-import androidx.annotation.IdRes
 import androidx.databinding.ViewDataBinding
 
-
+/**
+ * Allows expanding a TextView when clicking on it, also takes care of closing it
+ * when users scroll away and it is no longer visible
+ */
 class ExpandableViewHolder(binding: ViewDataBinding, private val viewHolderConfiguration: ExpandableViewHolderConfiguration)
     : BindingViewHolder(binding, viewHolderConfiguration) {
     private var expanded = false
