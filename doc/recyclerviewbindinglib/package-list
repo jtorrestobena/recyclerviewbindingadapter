@@ -1,0 +1,10 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:com.bytecoders.recyclerviewbindinglib$bindModel(androidx.recyclerview.widget.RecyclerView, kotlin.collections.List((kotlin.Any)), com.bytecoders.recyclerviewbindinglib.RecyclerViewConfiguration)com.bytecoders.recyclerviewbindinglib/androidx.recyclerview.widget.-recycler-view/bind-model.md
+$dokka.location:com.bytecoders.recyclerviewbindinglib.extensions$dpToPixels(kotlin.Float, android.content.Context)com.bytecoders.recyclerviewbindinglib.extensions/kotlin.-float/dp-to-pixels.md
+com.bytecoders.recyclerviewbindinglib
+com.bytecoders.recyclerviewbindinglib.diff
+com.bytecoders.recyclerviewbindinglib.extensions
+com.bytecoders.recyclerviewbindinglib.layoutmanager
+com.bytecoders.recyclerviewbindinglib.touchhelper
+com.bytecoders.recyclerviewbindinglib.viewholder

@@ -33,7 +33,7 @@ android {
 
     dokka {
         outputFormat = 'gfm'
-        outputDirectory = "$rootDir/wiki/doc"
+        outputDirectory = "$rootDir/doc"
     }
 }
 
