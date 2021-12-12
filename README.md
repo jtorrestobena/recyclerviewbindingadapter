@@ -2,7 +2,9 @@
 Collection of utilities for working with recyclerviews
 
 Publish plugin to Maven Local before sync'ing the project
+<pre><code>
 cd bindinglibplugin && gradle wrapper && sh gradlew publishPluginMavenPublicationToMavenLocal
+</code></pre>
 
 Find project documentation [here](doc/recyclerviewbindinglib/index.md)
 

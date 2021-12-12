@@ -61,5 +61,7 @@ dependencies {
 
 afterEvaluate {
     compileDebugKotlin.dependsOn(generateRecyclerviewBindingDebug)
+    kaptGenerateStubsDebugKotlin.dependsOn(generateRecyclerviewBindingDebug)
     compileReleaseKotlin.dependsOn(generateRecyclerviewBindingRelease)
+    kaptGenerateStubsReleaseKotlin.dependsOn(generateRecyclerviewBindingRelease)
 }
