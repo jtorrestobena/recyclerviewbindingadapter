@@ -35,7 +35,7 @@ fun RecyclerView.bindModel(
 
     layoutManager = recyclerViewConfiguration.getLayoutManager(context)
 
-    if (onFlingListener == null) {
+    if (onFlingListener == null && recyclerViewConfiguration.snap != null) {
         when (recyclerViewConfiguration.snap) {
             Snap.LINEAR -> LinearSnapHelper().attachToRecyclerView(this)
             Snap.PAGER -> PagerSnapHelper().attachToRecyclerView(this)
