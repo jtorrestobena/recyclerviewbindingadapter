@@ -13,6 +13,8 @@ import kotlin.math.sin
 /**
  * Draws items on the screen showing an Arc
  */
+private const val DEGREES_180 = 180
+private const val DEGREES_90 = 90f
 class ArcLayoutManager(
     context: Context,
     private var horizontalOffset: Int = 0,
@@ -55,41 +57,34 @@ class ArcLayoutManager(
 
         if (state == null || state.itemCount == 0) return
 
-        canScrollLeft = true
-        canScrollRight = true
-
         for (itemIndex in 0 until itemCount) {
             val left = (itemIndex * viewWidth) - horizontalOffset
             val right = left + viewWidth
 
-            if (itemIndex == 0 && left > displayCenter) {
-                canScrollLeft = false
+            canScrollLeft = !(itemIndex == 0 && left > displayCenter)
+            canScrollRight = !(itemIndex == (itemCount - 1) && right < displayCenter)
+
+            if (right >= 0) {
+                if (left > displayWidth) break
+
+                val top = computeYComponent((left + right) / 2, viewHeight)
+                val bottom = top.first + viewHeight
+
+                val view = recycler.getViewForPosition(itemIndex)
+                addView(view)
+
+                val alpha = top.second
+                view.rotation = (alpha * (DEGREES_180 / PI)).toFloat() - DEGREES_90
+
+                measureChildWithMargins(view, viewWidth.toInt(), viewHeight.toInt())
+                layoutDecoratedWithMargins(
+                    view,
+                    left.toInt(),
+                    top.first,
+                    right.toInt(),
+                    bottom.toInt()
+                )
             }
-
-            if (itemIndex == (itemCount - 1) && right < displayCenter) {
-                canScrollRight = false
-            }
-
-            if (right < 0) continue
-            if (left > displayWidth) break
-
-            val top = computeYComponent((left + right) / 2, viewHeight)
-            val bottom = top.first + viewHeight
-
-            val view = recycler.getViewForPosition(itemIndex)
-            addView(view)
-
-            val alpha = top.second
-            view.rotation = (alpha * (180 / PI)).toFloat() - 90f
-
-            measureChildWithMargins(view, viewWidth.toInt(), viewHeight.toInt())
-            layoutDecoratedWithMargins(
-                view,
-                left.toInt(),
-                top.first,
-                right.toInt(),
-                bottom.toInt()
-            )
         }
 
         recycler.scrapList.toList().forEach {

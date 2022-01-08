@@ -22,7 +22,7 @@ fun RecyclerView.bindModel(
 
     // If there's an adapter update data
     (adapter as? RecyclerViewBindingAdapter)?.let {
-        it.clearTouchHelpers()
+        it.touchHelperManager.clearTouchHelpers()
         if (it.recyclerViewConfiguration == recyclerViewConfiguration) {
             // Configuration has not changed so just update the model
             it.updateData(model)
@@ -43,9 +43,9 @@ fun RecyclerView.bindModel(
     }
 
     (adapter as? RecyclerViewBindingAdapter)?.let { recyclerViewBindingAdapter ->
-        recyclerViewBindingAdapter.createTouchHelper(recyclerViewConfiguration.swipeConfiguration)
+        recyclerViewBindingAdapter.touchHelperManager.createTouchHelper(recyclerViewConfiguration.swipeConfiguration)
             ?.attachToRecyclerView(this)
-        recyclerViewBindingAdapter.createTouchHelper(recyclerViewConfiguration.dragConfiguration)
+        recyclerViewBindingAdapter.touchHelperManager.createTouchHelper(recyclerViewConfiguration.dragConfiguration)
             ?.attachToRecyclerView(this)
     }
 }
