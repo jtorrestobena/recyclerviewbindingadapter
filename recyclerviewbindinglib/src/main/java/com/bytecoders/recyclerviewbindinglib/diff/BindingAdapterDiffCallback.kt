@@ -41,9 +41,10 @@ interface ContentChecker {
             newItem.comparableFields[it.key] != it.value
         }
     }
+
     fun changePayload(newItem: ContentChecker): Any? {
         val bundle = Bundle()
-        comparableFields.forEach{
+        comparableFields.forEach {
             if (newItem.comparableFields[it.key] != it.value) {
                 bundle.putSerializable(it.key, newItem.comparableFields[it.key])
             }

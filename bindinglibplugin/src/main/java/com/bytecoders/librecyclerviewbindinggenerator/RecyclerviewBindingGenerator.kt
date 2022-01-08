@@ -11,6 +11,7 @@ import java.io.File
 
 private const val TASK_NAME = "generateRecyclerviewBinding"
 private const val OUTPUT_FILENAME = "RecyclerViewGeneratedBinding.kt"
+@Suppress("unused") // See bindinglibplugin/build.gradle
 internal class RecyclerviewBindingGenerator : Plugin<Project> {
 
     override fun apply(project: Project) {

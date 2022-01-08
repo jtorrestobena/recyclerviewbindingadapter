@@ -5,14 +5,26 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bytecoders.recyclerviewbindinglib.diff.BindingAdapterDiffCallback
 import com.bytecoders.recyclerviewbindinglib.layoutmanager.ArcLayoutManager
 import com.bytecoders.recyclerviewbindinglib.touchhelper.DragConfiguration
 import com.bytecoders.recyclerviewbindinglib.touchhelper.DragTouchHelper
 import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeConfiguration
 import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeTouchHelper
-import com.bytecoders.recyclerviewbindinglib.viewholder.*
+import com.bytecoders.recyclerviewbindinglib.viewholder.BindingViewHolder
+import com.bytecoders.recyclerviewbindinglib.viewholder.DragHandleViewHolder
+import com.bytecoders.recyclerviewbindinglib.viewholder.DragHandleViewHolderConfiguration
+import com.bytecoders.recyclerviewbindinglib.viewholder.ExpandableViewHolder
+import com.bytecoders.recyclerviewbindinglib.viewholder.ExpandableViewHolderConfiguration
+import com.bytecoders.recyclerviewbindinglib.viewholder.StandardViewHolderConfiguration
+import com.bytecoders.recyclerviewbindinglib.viewholder.TouchHelperProvider
+import com.bytecoders.recyclerviewbindinglib.viewholder.ViewHolderConfiguration
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -169,7 +181,6 @@ class RecyclerViewBindingAdapter(
                     recyclerViewConfiguration.viewHolderConfiguration,
                     dragHelperProvider
                 )
-
         }
     }
 

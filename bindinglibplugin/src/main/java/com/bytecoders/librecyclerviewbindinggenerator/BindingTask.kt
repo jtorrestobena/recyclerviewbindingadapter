@@ -9,8 +9,13 @@ import java.time.LocalDateTime
 const val BINDING_PACKAGE = "binding.recyclerview"
 
 private const val LIB_IMPORT_PATH = "com.bytecoders.recyclerviewbindinglib"
+
 data class Param(val name: String, val type: String, val import: Boolean = false)
-data class BindingAdapter(val method: String, val params: List<Param>, val viewType: String = "RecyclerView")
+data class BindingAdapter(
+    val method: String,
+    val params: List<Param>,
+    val viewType: String = "RecyclerView"
+)
 
 internal open class BindingTask : DefaultTask() {
     @get:OutputFile
@@ -19,10 +24,13 @@ internal open class BindingTask : DefaultTask() {
     @TaskAction
     fun makeBindingFile() {
         val bindingList = listOf(
-            BindingAdapter("bindModel", listOf(
-                Param("model", "List<Any>?"),
-                Param("config", "RecyclerViewConfiguration", true)
-            ))
+            BindingAdapter(
+                "bindModel",
+                listOf(
+                    Param("model", "List<Any>?"),
+                    Param("config", "RecyclerViewConfiguration", true)
+                )
+            )
         )
 
         val import = mutableListOf(
@@ -47,13 +55,16 @@ internal open class BindingTask : DefaultTask() {
             val methodParams = bindingAdapter.params.joinToString {
                 "${it.name}: ${it.type}"
             }
-            bindingString += "@BindingAdapter($bindParams)\nfun ${bindingAdapter.viewType}.${bindingAdapter.method}($methodParams) = "
+            bindingString += "@BindingAdapter($bindParams)\n"
+            bindingString += "fun ${bindingAdapter.viewType}.${bindingAdapter.method}($methodParams) = "
             val callParams = bindingAdapter.params.joinToString { it.name }
             bindingString += "${bindingAdapter.method}($callParams)"
         }
-        outputFile.writeText("package $BINDING_PACKAGE\n" +
+        outputFile.writeText(
+            "package $BINDING_PACKAGE\n" +
                 import.joinToString(separator = "") { "import $it\n" } +
                 comments.joinToString(separator = "") { "// $it\n" } +
-                bindingString)
+                bindingString
+        )
     }
 }

@@ -6,7 +6,6 @@ import androidx.annotation.IdRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-
 /**
  * Takes care of abstracting all View configuration
  * parameters and binding the model for a given item
@@ -30,7 +29,8 @@ class ExpandableViewHolderConfiguration(
 ) : ViewHolderConfiguration(), MainViewHolderConfig
 
 class DragHandleViewHolderConfiguration(
-    override val variableId: Int, @IdRes val handleResource: Int,
+    override val variableId: Int,
+    @IdRes val handleResource: Int,
     override val itemAnimation: Int? = null
 ) : ViewHolderConfiguration(), MainViewHolderConfig
 

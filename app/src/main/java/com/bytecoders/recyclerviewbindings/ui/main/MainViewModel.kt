@@ -4,7 +4,14 @@ import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bytecoders.recyclerviewbindinglib.*
+import com.bytecoders.recyclerviewbindinglib.ClassLayoutMapping
+import com.bytecoders.recyclerviewbindinglib.RecyclerViewConfiguration
+import com.bytecoders.recyclerviewbindinglib.RecyclerViewCurved
+import com.bytecoders.recyclerviewbindinglib.RecyclerViewGrid
+import com.bytecoders.recyclerviewbindinglib.RecyclerViewGridStaggeredVertical
+import com.bytecoders.recyclerviewbindinglib.RecyclerViewHorizontal
+import com.bytecoders.recyclerviewbindinglib.RecyclerViewVertical
+import com.bytecoders.recyclerviewbindinglib.Snap
 import com.bytecoders.recyclerviewbindinglib.touchhelper.DragConfiguration
 import com.bytecoders.recyclerviewbindinglib.touchhelper.DragDirection
 import com.bytecoders.recyclerviewbindinglib.touchhelper.SwipeConfiguration
@@ -94,8 +101,10 @@ class MainViewModel : ViewModel() {
 
         var handle = false
         val layoutId: Int = when (preferences.getString("layout_type", null)) {
-            "res/layout/item_recyclerview_sample_model_text_wrap_width.xml" -> R.layout.item_recyclerview_sample_model_text_wrap_width
-            "res/layout/item_recyclerview_sample_model_text_circle.xml" -> R.layout.item_recyclerview_sample_model_text_circle
+            "res/layout/item_recyclerview_sample_model_text_wrap_width.xml" ->
+                R.layout.item_recyclerview_sample_model_text_wrap_width
+            "res/layout/item_recyclerview_sample_model_text_circle.xml" ->
+                R.layout.item_recyclerview_sample_model_text_circle
             "res/layout/item_recyclerview_sample_model_text_handle.xml" -> {
                 handle = true
                 R.layout.item_recyclerview_sample_model_text_handle
@@ -113,6 +122,16 @@ class MainViewModel : ViewModel() {
             handle = (helperConfig == HelperConfig.REORDER)
         }
 
+        setRecyclerViewConfiguration(handle, layoutId, recyclerViewType, itemAnimation, snap)
+    }
+
+    private fun setRecyclerViewConfiguration(
+        handle: Boolean,
+        layoutId: Int,
+        recyclerViewType: String?,
+        itemAnimation: Int?,
+        snap: Boolean
+    ) {
         recyclerViewConfiguration.value = RecyclerViewConfiguration(
             mapOf(SampleModel::class to layoutId),
             when (recyclerViewType) {

@@ -1,7 +1,12 @@
 package com.bytecoders.recyclerviewbindings.ui.main
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,7 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
 
-    private val viewModel: MainViewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
+    private val viewModel: MainViewModel by lazy { ViewModelProvider(this)[MainViewModel::class.java] }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +41,13 @@ class MainFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        val binding: MainFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val binding: MainFragmentBinding =
+            DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
@@ -61,8 +70,8 @@ class MainFragment : Fragment() {
         })
 
         viewModel.itemMovedEvent.observe(viewLifecycleOwner, {
-            Snackbar.make(view, "Move item from ${it.first} to ${it.second}", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(view, "Move item from ${it.first} to ${it.second}", Snackbar.LENGTH_LONG)
+                .show()
         })
     }
-
 }

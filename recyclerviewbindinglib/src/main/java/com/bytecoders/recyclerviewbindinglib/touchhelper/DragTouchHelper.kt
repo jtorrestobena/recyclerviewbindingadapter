@@ -2,6 +2,10 @@ package com.bytecoders.recyclerviewbindinglib.touchhelper
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_DRAG
+import androidx.recyclerview.widget.ItemTouchHelper.DOWN
+import androidx.recyclerview.widget.ItemTouchHelper.END
+import androidx.recyclerview.widget.ItemTouchHelper.START
+import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import com.bytecoders.recyclerviewbindinglib.RecyclerViewBindingAdapter
 
@@ -20,10 +24,10 @@ data class DragConfiguration(
 ) {
     val dragFlags: Int
         get() = when (dragDirection) {
-            DragDirection.UP -> ItemTouchHelper.UP
-            DragDirection.DOWN -> ItemTouchHelper.DOWN
-            DragDirection.VERTICAL -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
-            DragDirection.ALL_DIRECTIONS -> ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END
+            DragDirection.UP -> UP
+            DragDirection.DOWN -> DOWN
+            DragDirection.VERTICAL -> UP or DOWN
+            DragDirection.ALL_DIRECTIONS -> UP or DOWN or START or END
         }
 }
 
@@ -65,5 +69,3 @@ class DragTouchHelper(
         viewHolder.itemView.alpha = 1.0f
     }
 }
-
-

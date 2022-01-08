@@ -31,7 +31,7 @@ jobs:
           java-version: 11
 
       - name: Publish Plugin
-        run: cd bindinglibplugin && gradle wrapper && sh gradlew publishPluginMavenPublicationToMavenLocal
+        run: sh gradlew publishPluginMavenPublicationToMavenLocal
       
       - name: Run Unit Tests
         id: test
