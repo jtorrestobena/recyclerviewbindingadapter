@@ -34,8 +34,7 @@ data class DragConfiguration(
 class DragTouchHelper(
     private val adapter: RecyclerViewBindingAdapter,
     private val dragConfiguration: DragConfiguration
-) :
-    ItemTouchHelper.SimpleCallback(dragConfiguration.dragFlags, 0) {
+) : ItemTouchHelper.SimpleCallback(dragConfiguration.dragFlags, 0) {
 
     override fun isLongPressDragEnabled(): Boolean = dragConfiguration.longPressDragEnabled
 

@@ -40,7 +40,9 @@ class ArcLayoutManager(
         recycler: RecyclerView.Recycler?,
         state: RecyclerView.State?
     ): Int {
-        if ((dx < 0 && !canScrollLeft) || (dx > 0 && !canScrollRight)) return 0
+        val stopScrollingLeft = (dx < 0 && !canScrollLeft)
+        val stopScrollingRight = (dx > 0 && !canScrollRight)
+        if (stopScrollingLeft || stopScrollingRight) return 0
         horizontalOffset += dx
         fill(recycler, state)
         return dx
@@ -57,12 +59,20 @@ class ArcLayoutManager(
 
         if (state == null || state.itemCount == 0) return
 
+        canScrollLeft = true
+        canScrollRight = true
+
         for (itemIndex in 0 until itemCount) {
             val left = (itemIndex * viewWidth) - horizontalOffset
             val right = left + viewWidth
 
-            canScrollLeft = !(itemIndex == 0 && left > displayCenter)
-            canScrollRight = !(itemIndex == (itemCount - 1) && right < displayCenter)
+            if (itemIndex == 0 && left > displayCenter) {
+                canScrollLeft = false
+            }
+
+            if (itemIndex == (itemCount - 1) && right < displayCenter) {
+                canScrollRight = false
+            }
 
             if (right >= 0) {
                 if (left > displayWidth) break
