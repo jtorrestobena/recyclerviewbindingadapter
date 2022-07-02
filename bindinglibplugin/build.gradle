@@ -8,8 +8,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.android.tools.build:gradle:$gradle_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.android.tools.build:gradle:$gradleVersion"
     }
 }
 
@@ -19,7 +19,7 @@ repositories {
 }
 
 group 'com.bytecoders'
-version recyclerview_library_version
+version recyclerviewLibraryVersion
 
 gradlePlugin {
     plugins {
@@ -61,11 +61,11 @@ afterEvaluate {
 }*/
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "com.google.code.gson:gson:2.8.6"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation "com.google.code.gson:gson:2.8.9"
 
     // Android gradle plugin will allow us to access Android specific features
-    implementation "com.android.tools.build:gradle:$gradle_version"
+    implementation "com.android.tools.build:gradle:$gradleVersion"
 }
 
 apply plugin: 'maven-publish'
